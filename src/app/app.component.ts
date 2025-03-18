@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,NgxChartsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -15,7 +15,14 @@ export class AppComponent {
   tituloSeleccionado = '';
   investigacionSeleccionada = '';
   salarioCalculado: number | null = null;
+ historicoSalarios: { name: string; value: number }[] = [];
 
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#5AA454'],
+  };
   calcularSalario() {
     let sueldoBase = 0;
     let bonificacionPostgrado = 0;
@@ -58,5 +65,12 @@ export class AppComponent {
 
     // Calcular salario final
     this.salarioCalculado = sueldoBase + bonificacionPostgrado + bonificacionInvestigacion;
+    this.historicoSalarios = [
+      ...this.historicoSalarios,
+      {
+        name: `Simulación ${this.historicoSalarios.length + 1}`,
+        value: this.salarioCalculado!,
+      },
+    ];
   }
 }
