@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {Color, NgxChartsModule, ScaleType} from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgxChartsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -15,6 +16,14 @@ export class AppComponent {
   tituloSeleccionado = '';
   investigacionSeleccionada = '';
   salarioCalculado: number | null = null;
+  historicoSalarios: { name: string; value: number }[] = [];
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#5AA454'],
+  };
 
   calcularSalario() {
     let sueldoBase = 0;
@@ -32,7 +41,6 @@ export class AppComponent {
       sueldoBase = this.tiempoSeleccionado === 'Tiempo Completo' ? 3.918 : 2.146;
     }
 
-    // Definir bonificación por título
     if (this.tituloSeleccionado === 'Especialización') {
       bonificacionPostgrado = sueldoBase * 0.10;
     } else if (this.tituloSeleccionado === 'Maestría') {
@@ -41,7 +49,6 @@ export class AppComponent {
       bonificacionPostgrado = sueldoBase * 0.90;
     }
 
-    // Definir bonificación por productividad
     if (this.investigacionSeleccionada === 'A1') {
       bonificacionInvestigacion = sueldoBase * 0.56;
     } else if (this.investigacionSeleccionada === 'A') {
@@ -56,7 +63,13 @@ export class AppComponent {
       bonificacionInvestigacion = sueldoBase * 0.19;
     }
 
-    // Calcular salario final
     this.salarioCalculado = sueldoBase + bonificacionPostgrado + bonificacionInvestigacion;
+    this.historicoSalarios = [
+      ...this.historicoSalarios,
+      {
+        name: `Simulación ${this.historicoSalarios.length + 1}`,
+        value: this.salarioCalculado!,
+      },
+    ];
   }
 }

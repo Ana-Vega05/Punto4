@@ -20,6 +20,7 @@
 
   <label>Título Académico:</label>
   <select [(ngModel)]="tituloSeleccionado">
+    <option value="">Ninguno</option>
     <option>Especialización</option>
     <option>Maestría</option>
     <option>Doctorado</option>
@@ -28,6 +29,7 @@
 
   <label>Productividad Académica:</label>
   <select [(ngModel)]="investigacionSeleccionada">
+    <option value="">Ninguna</option>
     <option>A1</option>
     <option>A</option>
     <option>B</option>
@@ -46,5 +48,17 @@
     <p class="salary-value">{{ salarioCalculado * 1423500 | number:'1.1-1' }} COP</p>
   </div>
 
-
+  <div *ngIf="historicoSalarios.length > 0" class="mt-8">
+    <h3 class="text-lg font-semibold text-gray-800 text-center mb-4">
+      Historial de Simulaciones
+    </h3>
+    <ngx-charts-bar-vertical
+      [results]="historicoSalarios"
+      [scheme]="colorScheme"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showDataLabel]="true"
+    ></ngx-charts-bar-vertical>
+  </div>
 </div>
