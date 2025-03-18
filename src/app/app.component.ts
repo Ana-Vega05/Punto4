@@ -30,7 +30,6 @@ export class AppComponent {
     let bonificacionPostgrado = 0;
     let bonificacionInvestigacion = 0;
 
-    // Definir sueldo base
     if (this.categoriaSeleccionada === 'Auxiliar') {
       sueldoBase = this.tiempoSeleccionado === 'Tiempo Completo' ? 2.645 : 1.509;
     } else if (this.categoriaSeleccionada === 'Asistente') {
